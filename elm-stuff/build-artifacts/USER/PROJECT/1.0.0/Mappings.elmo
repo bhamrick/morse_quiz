@@ -1,0 +1,143 @@
+Elm.Mappings = Elm.Mappings || {};
+Elm.Mappings.make = function (_elm) {
+   "use strict";
+   _elm.Mappings = _elm.Mappings || {};
+   if (_elm.Mappings.values)
+   return _elm.Mappings.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Mappings",
+   $Basics = Elm.Basics.make(_elm),
+   $Dict = Elm.Dict.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
+   var mapForward = F2(function (mapping,
+   s) {
+      return $String.join(" ")($List.map(function (x) {
+         return A2($Maybe.withDefault,
+         "?",
+         A2($Dict.get,x,mapping));
+      })($String.split("")(s)));
+   });
+   var morse = $Dict.fromList(_L.fromArray([{ctor: "_Tuple2"
+                                            ,_0: "a"
+                                            ,_1: ".-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "b"
+                                            ,_1: "-..."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "c"
+                                            ,_1: "-.-."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "d"
+                                            ,_1: "-.."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "e"
+                                            ,_1: "."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "f"
+                                            ,_1: "..-."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "g"
+                                            ,_1: "--."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "h"
+                                            ,_1: "...."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "i"
+                                            ,_1: ".."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "j"
+                                            ,_1: ".---"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "k"
+                                            ,_1: "-.-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "l"
+                                            ,_1: ".-.."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "m"
+                                            ,_1: "--"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "n"
+                                            ,_1: "-."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "o"
+                                            ,_1: "---"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "p"
+                                            ,_1: ".--."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "q"
+                                            ,_1: "--.-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "r"
+                                            ,_1: ".-."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "s"
+                                            ,_1: "..."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "t"
+                                            ,_1: "-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "u"
+                                            ,_1: "..-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "v"
+                                            ,_1: "...-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "w"
+                                            ,_1: ".--"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "x"
+                                            ,_1: "-..-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "y"
+                                            ,_1: "-.--"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "z"
+                                            ,_1: "--.."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "0"
+                                            ,_1: "-----"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "1"
+                                            ,_1: ".----"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "2"
+                                            ,_1: "..---"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "3"
+                                            ,_1: "...--"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "4"
+                                            ,_1: "....-"}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "5"
+                                            ,_1: "....."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "6"
+                                            ,_1: "-...."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "7"
+                                            ,_1: "--..."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "8"
+                                            ,_1: "---.."}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: "9"
+                                            ,_1: "----."}]));
+   var mappings = _L.fromArray([{ctor: "_Tuple2"
+                                ,_0: "Morse"
+                                ,_1: morse}]);
+   _elm.Mappings.values = {_op: _op
+                          ,mappings: mappings
+                          ,morse: morse
+                          ,mapForward: mapForward};
+   return _elm.Mappings.values;
+};

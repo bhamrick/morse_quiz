@@ -1,0 +1,231 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values)
+   return _elm.Main.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Main",
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Mappings = Elm.Mappings.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Random = Elm.Random.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Time = Elm.Time.make(_elm),
+   $Words = Elm.Words.make(_elm);
+   var once = $Signal.map(function (_v4) {
+      return function () {
+         return {ctor: "_Tuple0"};
+      }();
+   })($Signal.dropRepeats(A3($Signal.foldp,
+   F2(function (_v0,_v1) {
+      return function () {
+         return function () {
+            return true;
+         }();
+      }();
+   }),
+   false,
+   $Time.fps(10))));
+   var seedSource = $Signal.map(function (t) {
+      return $Random.initialSeed($Basics.round(t / $Time.millisecond));
+   })($Signal.map($Basics.fst)($Time.timestamp(once)));
+   var guessBox = $Signal.mailbox("");
+   var skipBox = $Signal.mailbox({ctor: "_Tuple0"});
+   var displayQuiz = function (state) {
+      return A2($Html.div,
+      _L.fromArray([$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                         ,_0: "margin"
+                                                         ,_1: "auto"}
+                                                        ,{ctor: "_Tuple2"
+                                                         ,_0: "text-align"
+                                                         ,_1: "center"}]))]),
+      _L.fromArray([A2($Html.div,
+                   _L.fromArray([$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                                      ,_0: "font-size"
+                                                                      ,_1: "48pt"}
+                                                                     ,{ctor: "_Tuple2"
+                                                                      ,_0: "margin"
+                                                                      ,_1: "auto"}
+                                                                     ,{ctor: "_Tuple2"
+                                                                      ,_0: "text-align"
+                                                                      ,_1: "center"}]))]),
+                   _L.fromArray([$Html.text(A2($Mappings.mapForward,
+                   $Mappings.morse,
+                   state.word))]))
+                   ,A2($Html.input,
+                   _L.fromArray([$Html$Attributes.type$("text")
+                                ,A3($Html$Events.on,
+                                "keyup",
+                                $Html$Events.targetValue,
+                                $Signal.message(guessBox.address))
+                                ,$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                                      ,_0: "margin"
+                                                                      ,_1: "auto"}
+                                                                     ,{ctor: "_Tuple2"
+                                                                      ,_0: "display"
+                                                                      ,_1: "block"}]))
+                                ,$Html$Attributes.value(state.currentGuess)]),
+                   _L.fromArray([]))
+                   ,A2($Html.input,
+                   _L.fromArray([$Html$Attributes.type$("button")
+                                ,$Html$Attributes.value("Skip")
+                                ,$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                                      ,_0: "margin"
+                                                                      ,_1: "auto"}
+                                                                     ,{ctor: "_Tuple2"
+                                                                      ,_0: "display"
+                                                                      ,_1: "block"}]))
+                                ,A2($Html$Events.onClick,
+                                skipBox.address,
+                                {ctor: "_Tuple0"})]),
+                   _L.fromArray([]))]));
+   };
+   var ix = F2(function (n,l) {
+      return $List.head(A2($List.drop,
+      n,
+      l));
+   });
+   var sample = function (l) {
+      return function () {
+         var n = $List.length(l);
+         var genFunc = function (s) {
+            return function () {
+               var $ = A2($Random.generate,
+               A2($Random.$int,0,n - 1),
+               s),
+               i = $._0,
+               s$ = $._1;
+               return function () {
+                  var _v6 = A2(ix,i,l);
+                  switch (_v6.ctor)
+                  {case "Just":
+                     return {ctor: "_Tuple2"
+                            ,_0: _v6._0
+                            ,_1: s$};
+                     case "Nothing":
+                     return $Debug.crash("Impossible");}
+                  _U.badCase($moduleName,
+                  "between lines 43 and 46");
+               }();
+            }();
+         };
+         return $Random.customGenerator(genFunc);
+      }();
+   };
+   var updateQuiz = F2(function (delta,
+   state) {
+      return function () {
+         switch (delta.ctor)
+         {case "Guess":
+            return _U.eq(delta._0,
+              state.word) ? function () {
+                 var $ = A2($Random.generate,
+                 sample($Words.words),
+                 state.seed),
+                 w = $._0,
+                 s$ = $._1;
+                 return {_: {}
+                        ,currentGuess: ""
+                        ,seed: s$
+                        ,word: w};
+              }() : {_: {}
+                    ,currentGuess: delta._0
+                    ,seed: state.seed
+                    ,word: state.word};
+            case "SetSeed":
+            return function () {
+                 var $ = A2($Random.generate,
+                 sample($Words.words),
+                 delta._0),
+                 w = $._0,
+                 s$ = $._1;
+                 return {_: {}
+                        ,currentGuess: ""
+                        ,seed: s$
+                        ,word: w};
+              }();
+            case "Skip":
+            return function () {
+                 var $ = A2($Random.generate,
+                 sample($Words.words),
+                 state.seed),
+                 w = $._0,
+                 s$ = $._1;
+                 return {_: {}
+                        ,currentGuess: ""
+                        ,seed: s$
+                        ,word: w};
+              }();}
+         _U.badCase($moduleName,
+         "between lines 50 and 81");
+      }();
+   });
+   var Guess = function (a) {
+      return {ctor: "Guess",_0: a};
+   };
+   var Skip = {ctor: "Skip"};
+   var SetSeed = function (a) {
+      return {ctor: "SetSeed"
+             ,_0: a};
+   };
+   var deltaSource = $Signal.mergeMany(_L.fromArray([A2($Signal.map,
+                                                    SetSeed,
+                                                    seedSource)
+                                                    ,A2($Signal.map,
+                                                    function (_v11) {
+                                                       return function () {
+                                                          return Skip;
+                                                       }();
+                                                    },
+                                                    skipBox.signal)
+                                                    ,A2($Signal.map,
+                                                    Guess,
+                                                    guessBox.signal)]));
+   var initialState = {_: {}
+                      ,currentGuess: ""
+                      ,seed: $Random.initialSeed(0)
+                      ,word: ""};
+   var quizState = A3($Signal.foldp,
+   updateQuiz,
+   initialState,
+   deltaSource);
+   var main = A2($Signal.map,
+   displayQuiz,
+   quizState);
+   var QuizState = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,currentGuess: c
+             ,seed: a
+             ,word: b};
+   });
+   _elm.Main.values = {_op: _op
+                      ,QuizState: QuizState
+                      ,initialState: initialState
+                      ,SetSeed: SetSeed
+                      ,Skip: Skip
+                      ,Guess: Guess
+                      ,ix: ix
+                      ,sample: sample
+                      ,updateQuiz: updateQuiz
+                      ,skipBox: skipBox
+                      ,guessBox: guessBox
+                      ,displayQuiz: displayQuiz
+                      ,once: once
+                      ,seedSource: seedSource
+                      ,deltaSource: deltaSource
+                      ,quizState: quizState
+                      ,main: main};
+   return _elm.Main.values;
+};
