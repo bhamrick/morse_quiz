@@ -4191,7 +4191,7 @@ Elm.Main.make = function (_elm) {
       }();
    }),
    false,
-   $Time.fps(1))));
+   $Time.fps(10))));
    var seedSource = $Signal.map(function (t) {
       return $Random.initialSeed($Basics.round(t / $Time.millisecond));
    })($Signal.map($Basics.fst)($Time.timestamp(once)));
@@ -4219,18 +4219,26 @@ Elm.Main.make = function (_elm) {
                    $Mappings.morse,
                    state.word))]))
                    ,A2($Html.input,
-                   _L.fromArray([$Html$Attributes.type$("text")
-                                ,A3($Html$Events.on,
-                                "keyup",
-                                $Html$Events.targetValue,
-                                $Signal.message(guessBox.address))
-                                ,$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
-                                                                      ,_0: "margin"
-                                                                      ,_1: "auto"}
-                                                                     ,{ctor: "_Tuple2"
-                                                                      ,_0: "display"
-                                                                      ,_1: "block"}]))
-                                ,$Html$Attributes.value(state.currentGuess)]),
+                   $List.append(function () {
+                      var _v6 = state.guessOverride;
+                      switch (_v6.ctor)
+                      {case "Just":
+                         return _L.fromArray([$Html$Attributes.value(_v6._0)]);
+                         case "Nothing":
+                         return _L.fromArray([]);}
+                      _U.badCase($moduleName,
+                      "between lines 114 and 117");
+                   }())(_L.fromArray([$Html$Attributes.type$("text")
+                                     ,A3($Html$Events.on,
+                                     "keyup",
+                                     $Html$Events.targetValue,
+                                     $Signal.message(guessBox.address))
+                                     ,$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                                           ,_0: "margin"
+                                                                           ,_1: "auto"}
+                                                                          ,{ctor: "_Tuple2"
+                                                                           ,_0: "display"
+                                                                           ,_1: "block"}]))])),
                    _L.fromArray([]))
                    ,A2($Html.input,
                    _L.fromArray([$Html$Attributes.type$("button")
@@ -4262,11 +4270,11 @@ Elm.Main.make = function (_elm) {
                i = $._0,
                s$ = $._1;
                return function () {
-                  var _v6 = A2(ix,i,l);
-                  switch (_v6.ctor)
+                  var _v8 = A2(ix,i,l);
+                  switch (_v8.ctor)
                   {case "Just":
                      return {ctor: "_Tuple2"
-                            ,_0: _v6._0
+                            ,_0: _v8._0
                             ,_1: s$};
                      case "Nothing":
                      return $Debug.crash("Impossible");}
@@ -4291,11 +4299,11 @@ Elm.Main.make = function (_elm) {
                  w = $._0,
                  s$ = $._1;
                  return {_: {}
-                        ,currentGuess: ""
+                        ,guessOverride: $Maybe.Just("")
                         ,seed: s$
                         ,word: w};
               }() : {_: {}
-                    ,currentGuess: delta._0
+                    ,guessOverride: $Maybe.Nothing
                     ,seed: state.seed
                     ,word: state.word};
             case "SetSeed":
@@ -4306,7 +4314,7 @@ Elm.Main.make = function (_elm) {
                  w = $._0,
                  s$ = $._1;
                  return {_: {}
-                        ,currentGuess: ""
+                        ,guessOverride: $Maybe.Just("")
                         ,seed: s$
                         ,word: w};
               }();
@@ -4318,7 +4326,7 @@ Elm.Main.make = function (_elm) {
                  w = $._0,
                  s$ = $._1;
                  return {_: {}
-                        ,currentGuess: ""
+                        ,guessOverride: $Maybe.Just("")
                         ,seed: s$
                         ,word: w};
               }();}
@@ -4338,7 +4346,7 @@ Elm.Main.make = function (_elm) {
                                                     SetSeed,
                                                     seedSource)
                                                     ,A2($Signal.map,
-                                                    function (_v11) {
+                                                    function (_v13) {
                                                        return function () {
                                                           return Skip;
                                                        }();
@@ -4348,7 +4356,7 @@ Elm.Main.make = function (_elm) {
                                                     Guess,
                                                     guessBox.signal)]));
    var initialState = {_: {}
-                      ,currentGuess: ""
+                      ,guessOverride: $Maybe.Nothing
                       ,seed: $Random.initialSeed(0)
                       ,word: ""};
    var quizState = A3($Signal.foldp,
@@ -4362,7 +4370,7 @@ Elm.Main.make = function (_elm) {
    b,
    c) {
       return {_: {}
-             ,currentGuess: c
+             ,guessOverride: c
              ,seed: a
              ,word: b};
    });

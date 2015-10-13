@@ -15,13 +15,13 @@ import Words exposing (..)
 type alias QuizState =
     { seed : Seed
     , word : String
-    , currentGuess : String
+    , guessOverride : Maybe String
     }
 
 initialState =
     { seed = Random.initialSeed 0
     , word = ""
-    , currentGuess = ""
+    , guessOverride = Nothing
     }
 
 type QuizDelta
@@ -54,7 +54,7 @@ updateQuiz delta state = case delta of
         in
         { seed = s'
         , word = w
-        , currentGuess = ""
+        , guessOverride = Just ""
         }
     Skip ->
         let
@@ -62,7 +62,7 @@ updateQuiz delta state = case delta of
         in
         { seed = s'
         , word = w
-        , currentGuess = ""
+        , guessOverride = Just ""
         }
     Guess g ->
         if g == state.word
@@ -72,12 +72,12 @@ updateQuiz delta state = case delta of
             in
             { seed = s'
             , word = w
-            , currentGuess = ""
+            , guessOverride = Just ""
             }
         else
             { seed = state.seed
             , word = state.word
-            , currentGuess = g
+            , guessOverride = Nothing
             }
 
 skipBox : Mailbox ()
@@ -104,14 +104,17 @@ displayQuiz state =
             [ text (mapForward morse state.word)
             ]
         , input
-            [ type' "text"
+            ([ type' "text"
             , on "keyup" targetValue (Signal.message guessBox.address)
             , style
                 [ ("margin", "auto")
                 , ("display", "block")
                 ]
-            , value state.currentGuess
             ]
+            |> List.append (case state.guessOverride of
+                Just v -> [ value v ]
+                Nothing -> []
+            ))
             []
         , input
             [ type' "button"
@@ -127,7 +130,7 @@ displayQuiz state =
 
 once : Signal ()
 once =
-    Signal.foldp (\_ _ -> True) False (Time.fps 1)
+    Signal.foldp (\_ _ -> True) False (Time.fps 10)
     |> Signal.dropRepeats
     |> Signal.map (\_ -> ())
 
