@@ -99,6 +99,7 @@ displayQuiz state =
                 [ ("font-size", "48pt")
                 , ("margin", "auto")
                 , ("text-align", "center")
+                , ("font-weight", "bold")
                 ]
             ]
             [ text (mapForward morse state.word)

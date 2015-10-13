@@ -4214,7 +4214,10 @@ Elm.Main.make = function (_elm) {
                                                                       ,_1: "auto"}
                                                                      ,{ctor: "_Tuple2"
                                                                       ,_0: "text-align"
-                                                                      ,_1: "center"}]))]),
+                                                                      ,_1: "center"}
+                                                                     ,{ctor: "_Tuple2"
+                                                                      ,_0: "font-weight"
+                                                                      ,_1: "bold"}]))]),
                    _L.fromArray([$Html.text(A2($Mappings.mapForward,
                    $Mappings.morse,
                    state.word))]))
@@ -4227,7 +4230,7 @@ Elm.Main.make = function (_elm) {
                          case "Nothing":
                          return _L.fromArray([]);}
                       _U.badCase($moduleName,
-                      "between lines 114 and 117");
+                      "between lines 115 and 118");
                    }())(_L.fromArray([$Html$Attributes.type$("text")
                                      ,A3($Html$Events.on,
                                      "keyup",
