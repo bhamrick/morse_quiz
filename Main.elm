@@ -127,7 +127,7 @@ displayQuiz state =
 
 once : Signal ()
 once =
-    Signal.foldp (\_ _ -> True) False (Time.fps 10)
+    Signal.foldp (\_ _ -> True) False (Time.fps 1)
     |> Signal.dropRepeats
     |> Signal.map (\_ -> ())
 

@@ -35,7 +35,7 @@ Elm.Main.make = function (_elm) {
       }();
    }),
    false,
-   $Time.fps(10))));
+   $Time.fps(1))));
    var seedSource = $Signal.map(function (t) {
       return $Random.initialSeed($Basics.round(t / $Time.millisecond));
    })($Signal.map($Basics.fst)($Time.timestamp(once)));
